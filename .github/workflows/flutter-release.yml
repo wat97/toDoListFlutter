@@ -35,6 +35,21 @@ jobs:
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
 
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: Cache Flutter pub
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -63,10 +78,10 @@ jobs:
           echo "date=$DATE" >> $GITHUB_OUTPUT
 
       - name: Build APK (release)
-        run: flutter build apk --release
+        run: flutter build apk --release --no-tree-shake-icons --no-pub
 
       - name: Build App Bundle (release)
-        run: flutter build appbundle --release
+        run: flutter build appbundle --release --no-tree-shake-icons --no-pub
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
@@ -81,10 +96,22 @@ jobs:
           path: build/app/outputs/bundle/release/app-release.aab
 
       - name: Build APK (debug)
-        run: flutter build apk --debug
+        run: flutter build apk --debug --no-tree-shake-icons --no-pub
 
       - name: Upload APK debug artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.version.outputs.app_name }}_${{ steps.version.outputs.version_code }}_${{ steps.version.outputs.date }}_debug.apk
           path: build/app/outputs/flutter-apk/app-debug.apk
+
+      - name: Create GitHub Release
+        if: success()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.app_name }}_${{ steps.version.outputs.version_code }}_${{ steps.version.outputs.date }}
+          name: Release ${{ steps.version.outputs.app_name }} v${{ steps.version.outputs.version_code }}
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
