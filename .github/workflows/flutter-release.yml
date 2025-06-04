@@ -24,7 +24,12 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0'
+          flutter-version: '3.22.x'
+
+      - name: Check Flutter & Dart version
+        run: |
+          flutter --version
+          dart --version
 
       - name: Decode keystore from secret
         run: |
