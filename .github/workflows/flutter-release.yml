@@ -35,56 +35,56 @@ jobs:
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
 
-      # - name: Setup Flutter
-      #   uses: subosito/flutter-action@v2
-      #   with:
-      #     flutter-version: '3.24.0'
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
 
-      # - name: Check Flutter & Dart version
-      #   run: |
-      #     flutter --version
-      #     dart --version
+      - name: Check Flutter & Dart version
+        run: |
+          flutter --version
+          dart --version
 
-      # - name: Create key.properties
-      #   run: |
-      #     echo "storeFile=watdo.jks" > android/app/key.properties
-      #     echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/app/key.properties
-      #     echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/app/key.properties
-      #     echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/app/key.properties
+      - name: Create key.properties
+        run: |
+          echo "storeFile=watdo.jks" > android/app/key.properties
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/app/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/app/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/app/key.properties
 
-      # - name: Get version info
-      #   id: version
-      #   run: |
-      #     APP_NAME=$(grep 'name:' pubspec.yaml | head -1 | awk '{print $2}')
-      #     VERSION_CODE=$(grep 'version:' pubspec.yaml | head -1 | awk '{print $2}' | cut -d'+' -f2)
-      #     DATE=$(date +'%Y%m%d')
-      #     echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
-      #     echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-      #     echo "date=$DATE" >> $GITHUB_OUTPUT
+      - name: Get version info
+        id: version
+        run: |
+          APP_NAME=$(grep 'name:' pubspec.yaml | head -1 | awk '{print $2}')
+          VERSION_CODE=$(grep 'version:' pubspec.yaml | head -1 | awk '{print $2}' | cut -d'+' -f2)
+          DATE=$(date +'%Y%m%d')
+          echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+          echo "date=$DATE" >> $GITHUB_OUTPUT
 
-      # - name: Build APK (release)
-      #   run: flutter build apk --release
+      - name: Build APK (release)
+        run: flutter build apk --release
 
-      # - name: Build App Bundle (release)
-      #   run: flutter build appbundle --release
+      - name: Build App Bundle (release)
+        run: flutter build appbundle --release
 
-      # - name: Upload APK artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ steps.version.outputs.app_name }}_${{ steps.version.outputs.version_code }}_${{ steps.version.outputs.date }}_release.apk
-      #     path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.version.outputs.app_name }}_${{ steps.version.outputs.version_code }}_${{ steps.version.outputs.date }}_release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
 
-      # - name: Upload AAB artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ steps.version.outputs.app_name }}_${{ steps.version.outputs.version_code }}_${{ steps.version.outputs.date }}_release.aab
-      #     path: build/app/outputs/bundle/release/app-release.aab
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.version.outputs.app_name }}_${{ steps.version.outputs.version_code }}_${{ steps.version.outputs.date }}_release.aab
+          path: build/app/outputs/bundle/release/app-release.aab
 
-      # - name: Build APK (debug)
-      #   run: flutter build apk --debug
+      - name: Build APK (debug)
+        run: flutter build apk --debug
 
-      # - name: Upload APK debug artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ steps.version.outputs.app_name }}_${{ steps.version.outputs.version_code }}_${{ steps.version.outputs.date }}_debug.apk
-      #     path: build/app/outputs/flutter-apk/app-debug.apk
+      - name: Upload APK debug artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.version.outputs.app_name }}_${{ steps.version.outputs.version_code }}_${{ steps.version.outputs.date }}_debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
