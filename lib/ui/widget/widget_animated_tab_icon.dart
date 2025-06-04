@@ -27,9 +27,8 @@ class AnimatedTabIcon extends StatelessWidget {
           curve: Curves.easeOutBack,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: isSelected
-                ? Colors.teal.withValues(alpha: 0.1)
-                : Colors.transparent,
+            color:
+                isSelected ? Colors.teal.withOpacity(0.1) : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
