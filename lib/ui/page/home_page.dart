@@ -32,107 +32,149 @@ class _HomePageState extends State<HomePage> {
     final prov = Provider.of<HomeProvider>(context);
 
     return Scaffold(
-        // appBar: Utils.appBarCustomTransparent,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Column(
-            children: [
-              // Modern header for To Do List
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isWide = constraints.maxWidth > 700;
+            return Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 600),
+                margin: isWide
+                    ? const EdgeInsets.symmetric(vertical: 32)
+                    : EdgeInsets.zero,
+                decoration: isWide
+                    ? BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.07),
+                            blurRadius: 24,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      )
+                    : null,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade100,
-                        borderRadius: BorderRadius.circular(16),
+                    // Modern header for To Do List
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 24, horizontal: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade100,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            padding: const EdgeInsets.all(12),
+                            child: const Icon(Icons.check_circle_outline,
+                                size: 36, color: AppColors.primary),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('To Do List', style: AppTextStyles.header),
+                              const SizedBox(height: 4),
+                              Text('Kelola tugas harianmu dengan mudah',
+                                  style: AppTextStyles.subtitle),
+                            ],
+                          ),
+                        ],
                       ),
-                      padding: const EdgeInsets.all(12),
-                      child: const Icon(Icons.check_circle_outline,
-                          size: 36, color: AppColors.primary),
                     ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'To Do List',
-                          style: AppTextStyles.header,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Kelola tugas harianmu dengan mudah',
-                          style: AppTextStyles.subtitle,
-                        ),
-                      ],
-                    ),
+                    prov.isInitialized
+                        ? contentBody(prov, isWide)
+                        : const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),
-              prov.isInitialized
-                  ? contentBody(prov)
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-            ],
-          ),
-        ));
+            );
+          },
+        ),
+      ),
+    );
   }
 
-  Widget contentBody(HomeProvider prov) {
+  Widget contentBody(HomeProvider prov, bool isWide) {
     return Expanded(
       child: Column(
         children: [
-          // Add your content widgets here
-
           tabBarView(prov),
-
-          // You can add more widgets as needed
-
           Expanded(
             child: PageView(
               controller: prov.pageController,
               physics: const BouncingScrollPhysics(),
               onPageChanged: (value) => prov.setIndex(value),
               children: [
-                // Page 1: Belum
                 belumPage(prov),
-                // Page 2: Selesai
                 selesaiPage(prov),
               ],
             ),
           ),
-
-          // Add a button to add a new task
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            child: SizedBox(
-              width: double.infinity,
-              height: 54,
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.add_task_rounded,
-                    size: 24, color: Colors.white),
-                label: const Text(
-                  'Tambah Tugas',
-                  style: AppTextStyles.button,
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
+            padding: isWide
+                ? const EdgeInsets.fromLTRB(0, 16, 32, 24)
+                : const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            child: isWide
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: 54,
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Icons.add_task_rounded,
+                              size: 24, color: Colors.white),
+                          label: const Text('Tambah Tugas',
+                              style: AppTextStyles.button),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            elevation: 4,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 32, vertical: 12),
+                            textStyle: const TextStyle(fontSize: 18),
+                          ),
+                          onPressed: () async {
+                            await Navigator.push(
+                              context,
+                              RouteApp().routeAddTask,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox(
+                    width: double.infinity,
+                    height: 54,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.add_task_rounded,
+                          size: 24, color: Colors.white),
+                      label: const Text('Tambah Tugas',
+                          style: AppTextStyles.button),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        elevation: 2,
+                      ),
+                      onPressed: () async {
+                        await Navigator.push(
+                          context,
+                          RouteApp().routeAddTask,
+                        );
+                      },
+                    ),
                   ),
-                  elevation: 2,
-                ),
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    RouteApp().routeAddTask,
-                  );
-                },
-              ),
-            ),
           ),
         ],
       ),

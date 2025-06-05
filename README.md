@@ -1,16 +1,52 @@
-# todolist
+# Wat Do - Flutter To Do List
 
-A new Flutter project.
+A beautiful, responsive, and multiplatform To Do List app built with Flutter. Supports Android, iOS, and Web with a modern UI and secure automated CI/CD for releases.
+
+## Features
+- Responsive UI for mobile, web, and desktop
+- Add, view, and manage daily tasks
+- Modern card-based design and smooth animations
+- Secure build, sign, and release workflow (GitHub Actions)
+- App icons and Play Store assets auto-generated
+- English & Indonesian descriptions and release notes
+- Hive local storage (platform-safe, works on web)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. **Clone the repo:**
+   ```sh
+   git clone <repo-url>
+   cd todoflutter
+   ```
+2. **Install dependencies:**
+   ```sh
+   flutter pub get
+   ```
+3. **Run on Web:**
+   ```sh
+   flutter run -d chrome
+   ```
+4. **Run on Android/iOS:**
+   ```sh
+   flutter run
+   ```
 
-A few resources to get you started if this is your first Flutter project:
+## Build & Release (CI/CD)
+- Automated GitHub Actions workflow for building, signing, and releasing APK/AAB.
+- Keystore and key.properties managed via GitHub Secrets.
+- Artifacts uploaded to GitHub Releases.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots
+![Web Screenshot](assets/app_icon.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## License
+MIT
+
+---
+
+### Bahasa Indonesia
+Aplikasi To Do List multiplatform dengan tampilan modern dan workflow rilis otomatis. Dukungan penuh untuk Android, iOS, dan Web.
+
+---
+
+For more info, see the [CHANGELOG.md](CHANGELOG.md).
