@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2+6] - 2025-10-24
+### Added
+- In-app update support for Android using the `in_app_update` package (checks Play Store and prompts user).
+
+### Changed
+- Splash screen now checks Play Store for available updates on Android before navigating to Home.
+- Dependency: added `in_app_update` in `pubspec.yaml`.
+
+### Notes
+- In-app update only works for apps published on Google Play (internal testing, closed or open testing, or production). For local testing, use an internal test track in Play Console.
+
 ## [1.0.1+5] - 2025-06-05
 ### Added
 - Responsive and modern web UI for Home, Splash, and Add Task pages.
