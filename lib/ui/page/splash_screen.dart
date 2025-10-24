@@ -20,7 +20,9 @@ class _SplashScreenState extends State<SplashScreen> {
     splashProv.addListener(() async {
       if (splashProv.isReady) {
         // Check for Play Store updates on Android before navigating.
+        if (!mounted) return;
         await checkAndPromptUpdate(context);
+        if (!mounted) return;
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const HomePage()),
         );
@@ -60,14 +62,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   Container(
                     width: 96,
                     height: 96,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: const Color(0xFF90CAF9),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(24)),
+                      color: Color(0xFF90CAF9),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Image.asset(
-                        'assets/app_icon.png',
+                    child: const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Image(
+                        image: AssetImage('assets/app_icon.png'),
                         fit: BoxFit.contain,
                       ),
                     ),

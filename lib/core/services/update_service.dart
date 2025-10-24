@@ -14,6 +14,8 @@ Future<void> checkAndPromptUpdate(BuildContext context) async {
       final immediateAllowed = info.immediateUpdateAllowed;
       final flexibleAllowed = info.flexibleUpdateAllowed;
 
+      if (!context.mounted) return;
+
       // Show a dialog asking user whether to update now.
       final choice = await showDialog<String?>(
         context: context,
@@ -33,6 +35,8 @@ Future<void> checkAndPromptUpdate(BuildContext context) async {
         ),
       );
 
+      if (!context.mounted) return;
+
       if (choice == 'update') {
         // Prefer immediate update when allowed (forces update via Play Store UI).
         if (immediateAllowed) {
@@ -41,6 +45,7 @@ Future<void> checkAndPromptUpdate(BuildContext context) async {
           await InAppUpdate.startFlexibleUpdate();
           // After flexible update completes, we should call completeFlexibleUpdate.
           // Here we inform the user that the update will be applied after download.
+          if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text(

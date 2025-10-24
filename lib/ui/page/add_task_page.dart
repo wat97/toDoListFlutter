@@ -86,11 +86,13 @@ class _AddTaskForm extends StatelessWidget {
                         firstDate: now,
                         lastDate: DateTime(now.year + 5),
                       );
+                      if (!context.mounted) return;
                       if (picked != null) {
                         final time = await showTimePicker(
                           context: context,
                           initialTime: TimeOfDay.now(),
                         );
+                        if (!context.mounted) return;
                         if (time != null) {
                           prov.setDeadline(DateTime(
                             picked.year,
@@ -163,9 +165,9 @@ class _AddTaskForm extends StatelessWidget {
                         textStyle: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(Icons.add_task_rounded, size: 24),
                           SizedBox(width: 10),
                           Text('Tambah Tugas'),

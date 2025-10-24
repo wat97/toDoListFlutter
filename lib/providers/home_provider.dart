@@ -46,9 +46,7 @@ class HomeProvider with ChangeNotifier {
   Future<void> loadTasks() async {
     _tasks = _datasource.getActiveTasks();
     _tasks.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-    _tasks.forEach((task) {
-      print('Task: ${task.title}, Created At: ${task.createdAt}');
-    });
+    // tasks loaded
     notifyListeners();
   }
 

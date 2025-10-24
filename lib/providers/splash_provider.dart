@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SplashProvider extends ChangeNotifier {
   bool _isReady = false;

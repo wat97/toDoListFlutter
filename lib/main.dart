@@ -4,7 +4,6 @@ import 'package:todolist/config/constants/app_theme.dart';
 import 'package:todolist/core/di/injection.dart';
 import 'package:todolist/providers/home_provider.dart';
 import 'package:todolist/providers/splash_provider.dart';
-import 'package:todolist/ui/page/home_page.dart';
 import 'package:todolist/ui/page/splash_screen.dart';
 
 void main() async {

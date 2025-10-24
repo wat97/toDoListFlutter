@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:todolist/data/models/task_model.dart';
 // Only import path_provider and hive_flutter if not web

@@ -4,7 +4,7 @@ import 'package:todolist/providers/home_provider.dart';
 import 'package:todolist/routes/routes_app.dart';
 import 'package:todolist/ui/widget/widget_animated_tab_icon.dart';
 import 'package:todolist/ui/widget/widget_item_task.dart';
-import 'package:todolist/ui/page/add_task_page.dart'; // Import AddTaskPage
+// Note: AddTaskPage is routed via RouteApp; direct import removed to avoid unused import
 import 'package:todolist/data/models/task_model.dart';
 import 'package:todolist/config/constants/app_theme.dart';
 
@@ -18,7 +18,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // You can call any setup methods here, such as initializing providers or fetching data
     // For example, if you have a provider, you might call:
@@ -76,11 +75,11 @@ class _HomePageState extends State<HomePage> {
                                 size: 36, color: AppColors.primary),
                           ),
                           const SizedBox(width: 16),
-                          Column(
+                          const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('To Do List', style: AppTextStyles.header),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4),
                               Text('Kelola tugas harianmu dengan mudah',
                                   style: AppTextStyles.subtitle),
                             ],
@@ -182,7 +181,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget tabBarView(HomeProvider prov) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
