@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist/providers/splash_provider.dart';
 import 'package:todolist/ui/page/home_page.dart';
+import 'package:todolist/core/services/update_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,8 +17,10 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     final splashProv = Provider.of<SplashProvider>(context, listen: false);
     splashProv.initialize();
-    splashProv.addListener(() {
+    splashProv.addListener(() async {
       if (splashProv.isReady) {
+        // Check for Play Store updates on Android before navigating.
+        await checkAndPromptUpdate(context);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const HomePage()),
         );
